@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-
+// tabs
     const tabs = document.querySelectorAll('.tabheader__item'),
-          tabsContent = document.querySelectorAll('.tabcontent__descr'),
+          tabsContent = document.querySelectorAll('.tabcontent'),
           tabsParent = document.querySelector('.tabheader__items');
 
     function hideTabContent () {
@@ -24,14 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
     hideTabContent ();
     showTabContent ();
 
+//  вешааем обработчик на родителя
     tabsParent.addEventListener('click', (event) => {
         const target = event.target;
-        
+        // проверяем, что событие произошло именно на конкретном элементе с         конкретным классом
         if (target && target.classList.contains('tabheader__item')) {
 
             tabs.forEach((item, i) => {
                 if(target == item) {
-                    hideTabContent ();
+                    hideTabContent (i);
                     showTabContent (i);
                 }
             });    
