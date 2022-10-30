@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
 // Tabs
     let tabs = document.querySelectorAll('.tabheader__item'),
         tabsContent = document.querySelectorAll('.tabcontent'),
@@ -45,11 +45,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const deadline = '2023-02-01';
 
     function getTimeRemaining(endtime) {
-        const t = Date.parse(endtime) - Date.parse(new Date()),
-              days = Math.floor(t / (1000 * 60 * 60 * 24)),
-              hours = Math.floor((t / (1000 * 60 * 60) % 24)),
-              minutes = Math.floor((t / 1000 / 60) % 60),
-              seconds = Math.floor((t / 1000) % 60);
+        const t = Date.parse(endtime) - Date.parse(new Date());
+        let days, hours, minutes, seconds;
+
+        if(t <= 0) {
+            days = 0;
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+            // document.querySelector('.timer').style.display = 'none';
+        } else {
+            days = Math.floor(t / (1000 * 60 * 60 * 24));
+            hours = Math.floor((t / (1000 * 60 * 60) % 24));
+            minutes = Math.floor((t / 1000 / 60) % 60);
+            seconds = Math.floor((t / 1000) % 60);
+        }
+        
 
         return {
             'total': t,
