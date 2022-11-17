@@ -175,8 +175,8 @@ window.addEventListener('DOMContentLoaded', () => {
            const element = document.createElement('div');
 
            if(this.classes.length === 0) {
-            this.element = 'menu__item';
-            element.classList.add(this.element);
+            this.classes = 'menu__item';
+            element.classList.add(this.classes);
            } else {
                 this.classes.forEach(className => element.classList.add(className));
            }
@@ -225,6 +225,47 @@ window.addEventListener('DOMContentLoaded', () => {
         '.menu .container',
         'menu__item'
     ).render();
+    
+    // Forms
+    
+    const forms = document.querySelectorAll('form');
 
+    const message = {
+        loading: 'Загрузка',
+        success: 'Спасибо! Скоро мы с Вами свяжемся',
+        failure: 'Что-то пошло не так...'
+    };
+          
+    forms.forEach(item => {
+        postData(item);
+    });
+
+    function postData(form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const statusMessage = document.createElement('div');       
+            statusMessage.classList.add('status');
+            statusMessage.textContent = message.loading;
+            statusMessage.append(form);
+
+            const req = new XMLHttpRequest();
+            req.open('POST', 'server.php');
+
+            req.setRequestHeader('Content-type', 'multipart/form-data');
+            const formData = new FormData(form);
+
+            req.send(formData);
+
+            req.addEventListener('load', () => {
+                if(req.status === 200) {
+                    console.log(req.response);
+                    statusMessage.textContent = message.success;
+                } else {
+                    statusMessage.textContent = message.failure;
+                }
+            });
+        });
+    }
 });
 
